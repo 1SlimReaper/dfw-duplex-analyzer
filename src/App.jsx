@@ -162,14 +162,14 @@ function ScenarioBand({price,county,u1Rent,u2Rent,u1Size,u2Size,downPct,hoa,rate
   return(<div style={{background:T.card,border:`1px solid ${T.bdr}`,borderRadius:8,padding:"14px 16px",boxShadow:T.shadow,gridColumn:"1 / -1"}}><p style={{fontFamily:T.mono,fontSize:9,letterSpacing:"0.13em",textTransform:"uppercase",color:T.faint,margin:"0 0 12px",fontWeight:500}}>Rent Sensitivity — Three Scenarios</p><p style={{fontSize:10,color:T.muted,margin:"0 0 12px",lineHeight:1.65}}>How does this property perform if rents come in above or below your estimate?</p><div style={{display:"grid",gridTemplateColumns:"repeat(3,1fr)",gap:10}}>{rows.map(({label,r,note})=>(<div key={label} style={{background:r.vBg,border:`1px solid ${r.vBdr}`,borderLeft:`3px solid ${r.vColor}`,borderRadius:7,padding:"12px 14px"}}><div style={{fontFamily:T.mono,fontSize:9,color:r.vColor,fontWeight:700,letterSpacing:"0.08em",textTransform:"uppercase",marginBottom:6}}>{label}</div><div style={{fontFamily:T.mono,fontSize:20,fontWeight:700,color:r.vColor,lineHeight:1}}>{f$(r.stabCF)}<span style={{fontSize:11}}>/mo</span></div><div style={{fontFamily:T.mono,fontSize:9,color:r.vColor,marginTop:4,marginBottom:8}}>{r.verdict}</div><div style={{fontSize:9,color:T.textMid,borderTop:`1px solid ${r.vBdr}`,paddingTop:6,lineHeight:1.55}}><div>U1: {f$(r.u1Rent)} · U2: {f$(r.u2Rent)}</div><div style={{color:T.muted,marginTop:2}}>{note}</div></div></div>))}</div></div>);
 }
 export default function App(){
-  const [tab,setTab]=React.useState("analyze");
-  const [savedP1,setSavedP1]=React.useState(null);
-  const [rate,setRate]=React.useState("6.875"),[pmiRate,setPmi]=React.useState("0.85"),[insRate,setIns]=React.useState("0.55");
-  const [county,setCounty]=React.useState("Dallas"),[price,setPrice]=React.useState("380000"),[downPct,setDown]=React.useState("5");
-  const [u1Rent,setU1Rent]=React.useState("1200"),[u2Rent,setU2Rent]=React.useState("1200");
-  const [u1Size,setU1Size]=React.useState("2BR"),[u2Size,setU2Size]=React.useState("2BR"),[hoa,setHoa]=React.useState("0");
+  const [tab,setTab]=useState("analyze");
+  const [savedP1,setSavedP1]=useState(null);
+  const [rate,setRate]=useState("6.875"),[pmiRate,setPmi]=useState("0.85"),[insRate,setIns]=useState("0.55");
+  const [county,setCounty]=useState("Dallas"),[price,setPrice]=useState("380000"),[downPct,setDown]=useState("5");
+  const [u1Rent,setU1Rent]=useState("1200"),[u2Rent,setU2Rent]=useState("1200");
+  const [u1Size,setU1Size]=useState("2BR"),[u2Size,setU2Size]=useState("2BR"),[hoa,setHoa]=useState("0");
   const g={rate:parseFloat(rate)||6.875,pmiRate:parseFloat(pmiRate)||0.85,insRate:parseFloat(insRate)||0.55};
-  const a=React.useMemo(()=>{
+  const a=useMemo(()=>{
     const pr=parseFloat(price);if(!pr||pr<1000)return null;
     return runAnalysis(pr,county,parseFloat(u1Rent)||0,parseFloat(u2Rent)||0,u1Size,u2Size,parseFloat(downPct)||5,parseFloat(hoa)||0,g.rate,g.pmiRate,g.insRate);
   },[price,county,u1Rent,u2Rent,u1Size,u2Size,downPct,hoa,rate,pmiRate,insRate]);
@@ -246,12 +246,12 @@ export default function App(){
   </div>);
 }
 function CsvScanner({g,onLoad}){
-  const[results,setResults]=React.useState([]),
-    [fileName,setFileName]=React.useState(null),
-    [unmapped,setUnmapped]=React.useState([]),
-    [dragOver,setDragOver]=React.useState(false),
-    [expanded,setExpanded]=React.useState(null);
-  const fileRef=React.useRef();
+  const[results,setResults]=useState([]),
+    [fileName,setFileName]=useState(null),
+    [unmapped,setUnmapped]=useState([]),
+    [dragOver,setDragOver]=useState(false),
+    [expanded,setExpanded]=useState(null);
+  const fileRef=useRef();
   function process(file){
     if(!file)return;
     setFileName(file.name);
@@ -341,9 +341,9 @@ function DtiBox({dti,headroom,note}){
   return(<div style={{background:dtiBg(dti),border:`1px solid ${dtiBdr(dti)}`,borderRadius:7,padding:"12px",textAlign:"center"}}><div style={{fontFamily:T.mono,fontSize:20,fontWeight:700,color:dtiColor(dti)}}>{fp(dti,1)}</div><div style={{fontFamily:T.mono,fontSize:8,color:dtiColor(dti),marginTop:2}}>{dtiStatus(dti)}</div><div style={{fontSize:9,color:T.muted,marginTop:5}}>{note||`Headroom: ${headroom}`}</div></div>);
 }
 function SequencePlanner({savedP1,gRate,gPmi,gIns}){
-  const[p2Price,setP2Price]=React.useState("420000"),[p2Rent,setP2Rent]=React.useState("2500"),[p2County,setP2County]=React.useState("Collin");
-  const[p3Price,setP3Price]=React.useState("465000"),[p3Rent,setP3Rent]=React.useState("2700"),[p3County,setP3County]=React.useState("Collin");
-  const[fPrice,setFPrice]=React.useState("750000"),[fDown,setFDown]=React.useState("10"),[fCounty,setFCounty]=React.useState("Collin");
+  const[p2Price,setP2Price]=useState("420000"),[p2Rent,setP2Rent]=useState("2500"),[p2County,setP2County]=useState("Collin");
+  const[p3Price,setP3Price]=useState("465000"),[p3Rent,setP3Rent]=useState("2700"),[p3County,setP3County]=useState("Collin");
+  const[fPrice,setFPrice]=useState("750000"),[fDown,setFDown]=useState("10"),[fCounty,setFCounty]=useState("Collin");
   const countyOpts=Object.entries(COUNTIES).map(([k,v])=>[k,v.label]);
   function estPiti(price,dp,county){
     const d=price*dp/100,l=price-d;
